@@ -1,12 +1,15 @@
 require "spec_helper"
 require "post"
+require "post_helpers"
 
 describe Post do
+  include PostHelpers
+
   describe "#today" do
     it "returns posts created today" do
-      create :post, title: "first_today", created_at: Time.now.beginning_of_day
-      create :post, title: "last_today", created_at: Time.now.end_of_day
-      create :post, title: "yesterday", created_at: 1.day.ago.end_of_day
+      posts = [first_post_today, last_post_today, yesterdays_post]
+
+      allow(Post).to receive(:today).and_return(created_today(posts))
 
       result = Post.today
 
@@ -18,4 +21,3 @@ describe Post do
     Timecop.freeze { example.run }
   end
 end
-

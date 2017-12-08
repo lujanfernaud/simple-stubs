@@ -1,14 +1,18 @@
 require "spec_helper"
 require "dashboard"
+require "post_helpers"
 
 describe Dashboard do
+  include PostHelpers
+
   describe "#posts" do
     it "returns posts created today" do
-      create :post, title: "first_today", created_at: Time.now.beginning_of_day
-      create :post, title: "last_today", created_at: Time.now.end_of_day
-      create :post, title: "yesterday", created_at: 1.day.ago.end_of_day
-      dashboard = Dashboard.new(posts: Post.all)
+      posts = [first_post_today, last_post_today, yesterdays_post]
 
+      allow(Dashboard).to receive(:todays_posts).and_return(posts)
+      allow(posts).to receive(:today).and_return(created_today(posts))
+
+      dashboard = Dashboard.new(posts: posts)
       result = dashboard.todays_posts
 
       expect(result.map(&:title)).to match_array(%w(first_today last_today))
