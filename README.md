@@ -2,7 +2,7 @@
 
 ## Simple Stubs
 
-Implementing stubs for the [Test Doubles](https://thoughtbot.com/upcase/test-doubles) course.
+Implementing a simple stub for the [Test Doubles](https://thoughtbot.com/upcase/test-doubles) course.
 
 ### Before
 
